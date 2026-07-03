@@ -8,6 +8,9 @@ Scope of this specification is primarly for Møre og Romsdal Fylkeskommune and
 FRAM, but the overall ambition is for a broad consensus with other operators and
 authorities.
 
+> [!NOTE]
+> Some discussions can be found at the [old archived repository](https://github.com/mrfylke/hwb-standard/issues).
+
 ## Structure of this repo
 
 In this repo you'll find a test client, CLI validator, documentation page, and
