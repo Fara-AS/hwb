@@ -7,9 +7,6 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   integrations: [tailwind()],
 
-  site: "https://entur.github.io",
-  base: "hwb",
-
   markdown: {
     remarkPlugins: [remarkMermaid],
   },

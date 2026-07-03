@@ -8,9 +8,6 @@ Scope of this specification is primarly for Møre og Romsdal Fylkeskommune and
 FRAM, but the overall ambition is for a broad consensus with other operators and
 authorities.
 
-> [!NOTE]  
-> Some discussions can be found at the [old archived repository](https://github.com/mrfylke/hwb-standard/issues).
-
 ## Structure of this repo
 
 In this repo you'll find a test client, CLI validator, documentation page, and
@@ -43,11 +40,22 @@ the specification it self.
     ├── <a href="./specifications/validators/configure">configure</a>
     │   ├── <a href="./specifications/validators/configure/current">current</a>
     │   └── <a href="./specifications/validators/configure/request">request</a>
-    └── <a href="./specifications/validators/nfc/">nfc</a>
-        └── apdu
-            ├── [deviceId]
-            │   └── <a href="./specifications/validators/nfc/apdu/[deviceId]/transmit/">transmit</a>
-            └── <a href="./specifications/validators/nfc/apdu/receive/">receive</a>
+    ├── <a href="./specifications/validators/nfc/">nfc</a>
+    │   └── apdu
+    │       ├── [deviceId]
+    │       │   └── <a href="./specifications/validators/nfc/apdu/[deviceId]/transmit/">transmit</a>
+    │       └── <a href="./specifications/validators/nfc/apdu/receive/">receive</a>
+    └── <a href="./specifications/validators/emv/">emv</a>
+        ├── <a href="./specifications/validators/emv/kft/">kft</a>
+        │   ├── [deviceId]
+        │   │   ├── <a href="./specifications/validators/emv/kft/[deviceId]/abort/">abort</a>
+        │   │   ├── <a href="./specifications/validators/emv/kft/[deviceId]/cancel/">cancel</a>
+        │   │   ├── <a href="./specifications/validators/emv/kft/[deviceId]/report/">report</a>
+        │   │   └── <a href="./specifications/validators/emv/kft/[deviceId]/start/">start</a>
+        │   ├── <a href="./specifications/validators/emv/kft/outcome/">outcome</a>
+        │   └── <a href="./specifications/validators/emv/kft/report/">report</a>
+        └── <a href="./specifications/validators/emv/payg/">payg</a>
+            └── <a href="./specifications/validators/emv/payg/tap/">tap</a>
 </pre>
 
 ## Adding new Specifications
@@ -124,9 +132,9 @@ graph TB
     A(Sales Client) <--MQTT--> B(Gateway)
 
     subgraph READERS
-        D(Barcode/NFC)
-        E(Barcode/NFC)
-        F(Barcode/NFC)
+        D(Barcode/NFC/PAYG/KFT)
+        E(Barcode/NFC/PAYG/KFT)
+        F(Barcode/NFC/PAYG/KFT)
     end
 
     B <--MQTT--> READERS

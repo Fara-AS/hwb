@@ -8,8 +8,13 @@ generate().then(() => {
 
 async function generate() {
   const topicSet = await listSpecifications();
-  const topics = Object.keys(topicSet);
+  const topics = Object.keys(topicSet).sort();
   const topicNames = topics.map((i) => `'${i}'`).join(" | ");
+
+  const sortedTopicSet = topics.reduce((acc, key) => {
+    acc[key] = topicSet[key]!;
+    return acc;
+  }, {} as Record<string, string>);
 
   const types = `
 export type TopicName = ${!topicNames ? "''" : topicNames};
@@ -17,7 +22,7 @@ export const availableTopics = ${JSON.stringify(
     topics
   )} as readonly TopicName[];
 export const topicSet = ${JSON.stringify(
-    topics.length ? topicSet : { "": "" }
+    topics.length ? sortedTopicSet : { "": "" }
   )} satisfies Record<TopicName, string>;
 `;
 

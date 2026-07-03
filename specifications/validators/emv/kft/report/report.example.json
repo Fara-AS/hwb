@@ -1,0 +1,40 @@
+{
+  "traceId": "883070fe-ef32-11ed-a05b-0242ac120003",
+  "deviceId": "flv202500011",
+  "requestId": "543070fe-ef32-11ed-a05b-0242ac120003",
+  "shiftId": "2026-05-20-0001",
+  "readerId": "1A002B003C004D005E006F0070008000",
+  "status": "success",
+  "transactions": [
+    {
+      "datetime": "2026-05-20T08:14:22.000Z",
+      "status": "accepted",
+      "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+      "cardAid": "A0000000031010",
+      "amount": { "value": 320, "currencyCode": 978, "exponent": 2 }
+    },
+    {
+      "datetime": "2026-05-20T08:30:48.000Z",
+      "status": "accepted",
+      "tapId": "c5f9e8b1-3d52-4fa3-9f7b-4f5e7f2a8d22",
+      "cardAid": "A0000000041010",
+      "amount": { "value": 150, "currencyCode": 978, "exponent": 2 }
+    },
+    {
+      "datetime": "2026-05-20T08:31:05.000Z",
+      "status": "cancelled",
+      "tapId": "c5f9e8b1-3d52-4fa3-9f7b-4f5e7f2a8d22",
+      "cardAid": "A0000000041010",
+      "amount": { "value": 150, "currencyCode": 978, "exponent": 2 }
+    },
+    {
+      "datetime": "2026-05-20T08:45:11.000Z",
+      "status": "rejected",
+      "rejectReason": "denyList",
+      "tapId": "d7a1c9f2-4e63-4eb4-8a8c-5a6f8a3b9e33",
+      "cardAid": "A0000000031010",
+      "amount": { "value": 200, "currencyCode": 978, "exponent": 2 }
+    }
+  ],
+  "eventTimestamp": "2026-05-20T18:00:12.337Z"
+}

@@ -83,7 +83,7 @@
       "items": [
         {
           "type": "string",
-          "enum": ["location", "barcode", "nfc"],
+          "enum": ["location", "barcode", "nfc", "payg", "kft"],
           "description": ""
         }
       ]

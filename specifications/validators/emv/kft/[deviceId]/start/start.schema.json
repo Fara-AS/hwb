@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/mrfylke/frammr-mqtt-validator/specifications/validators/emv/kft/[deviceId]/start/start.schema.json",
+  "title": "Start EMV payment transaction",
+  "type": "object",
+  "description": "Command to start an EMV Known Fare Transaction (KFT) on the validator, prepare to read the EMV card and show appropriate screen.",
+  "properties": {
+    "traceId": {
+      "$id": "#/properties/traceId",
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier - UUID v4"
+    },
+    "currencyExponent": {
+      "$id": "#/properties/currencyExponent",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "Number of decimal digits for the currency (e.g., 2 for cents, 0 for JPY)."
+    },
+    "currencyCode": {
+      "$id": "#/properties/currencyCode",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 999,
+      "description": "Numeric ISO 4217 currency code (e.g., 578 for Norwegian Krone)."
+    },
+    "products": {
+      "$id": "#/properties/products",
+      "type": "array",
+      "description": "List of products to be sold within this EMV transaction.",
+      "items": {
+        "type": "object",
+        "required": ["qty", "category", "type", "price"],
+        "properties": {
+          "qty": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Quantity of product items."
+          },
+          "category": {
+            "type": "string",
+            "description": "Fare category for the product (e.g., 'adult', 'child', 'student')."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type or identifier of the product (e.g., 'singleTicket', 'dayPass')."
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Product price in the smallest currency unit (e.g., cents)."
+          },
+          "vatPercentage": {
+            "type": "number",
+            "minimum": 0,
+            "description": "VAT percentage applied to the product price (e.g., 12.0 for 12%)."
+          }
+        }
+      }
+    },
+    "productMedium": {
+      "$id": "#/properties/productMedium",
+      "type": "object",
+      "description": "Medium information for the product delivery (e.g., card, paper).",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["card", "paper"],
+          "description": "Medium through which the product is issued or delivered."
+        },
+        "serial": {
+          "type": "string",
+          "description": "Optional serial number of the medium (e.g., card serial number)."
+        }
+      }
+    },
+    "operator": {
+      "$id": "#/properties/operator",
+      "type": "object",
+      "description": "Operator context of the transaction.",
+      "required": ["countryCode", "networkId", "companyId", "userId", "shiftId"],
+      "properties": {
+        "countryCode": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999,
+          "description": "Numeric ISO 3166-1 country code (e.g., 578 for Norway)."
+        },
+        "networkId": {
+          "type": "string",
+          "description": "Network identifier."
+        },
+        "companyId": {
+          "type": "string",
+          "description": "Company identifier."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Identifier of the user initiating the transaction."
+        },
+        "shiftId": {
+          "type": "string",
+          "description": "Identifier of the current operator shift."
+        }
+      }
+    },
+    "tapTimeoutSec": {
+      "$id": "#/properties/tapTimeoutSec",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 300,
+      "description": "Maximum allowed time (in seconds) for a KFT tap to complete before timing out. If omitted, the validator's default configuration is used."
+    },
+    "cancelWindowSec": {
+      "$id": "#/properties/cancelWindowSec",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1800,
+      "description": "Time window (in seconds) during which an accepted KFT transaction may be canceled. If omitted, the validator's default configuration is used."
+    },
+    "message": {
+      "$id": "#/properties/message",
+      "type": "string",
+      "description": "Optional human-readable message to display or log about the EMV transaction start."
+    },
+    "eventTimestamp": {
+      "$id": "#/properties/eventTimestamp",
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp for when the EMV transaction was initiated (UTC, RFC3339 format)."
+    }
+  },
+  "required": [
+    "traceId",
+    "currencyExponent",
+    "currencyCode",
+    "products",
+    "eventTimestamp"
+  ],
+  "additionalProperties": false
+}

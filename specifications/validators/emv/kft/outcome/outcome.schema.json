@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "EMV KFT transaction outcome",
+  "description": "Schema for EMV Known Fare Transaction (KFT) outcome messages published by validator.",
+  "type": "object",
+  "properties": {
+    "traceId": {
+      "$id": "#/properties/traceId",
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier - UUID v4"
+    },
+    "deviceId": {
+      "$id": "#/properties/deviceId",
+      "type": "string",
+      "description": "Unique device identifier of the validator."
+    },
+    "requestId": {
+      "$id": "#/properties/requestId",
+      "type": "string",
+      "description": "The traceId from the request message (start, cancel, or abort) that triggered this outcome.",
+      "format": "uuid"
+    },
+    "requestType": {
+      "$id": "#/properties/requestType",
+      "type": "string",
+      "description": "Type of the EMV transaction request that this outcome corresponds to.",
+      "enum": ["start", "cancel", "abort", "flush"]
+    },
+    "status": {
+      "$id": "#/properties/status",
+      "type": "string",
+      "description": "Final outcome status of the transaction.",
+      "enum": ["accepted", "rejected", "timeout"]
+    },
+    "result": {
+      "$id": "#/properties/result",
+      "type": "object",
+      "description": "Detailed result of the transaction, when applicable.",
+      "properties": {
+        "rejectReason": {
+          "$id": "#/properties/result/properties/rejectReason",
+          "type": "string",
+          "description": "Reason for rejection if status is 'rejected'.",
+          "enum": [
+            "none",
+            "oda",
+            "aac",
+            "pilotList",
+            "denyList",
+            "passback",
+            "expired",
+            "binBlocked",
+            "arqcFailed",
+            "issuerAuthFailed",
+            "readFailed",
+            "invalidRequest",
+            "systemBusy",
+            "systemError",
+            "otherError"
+          ]
+        },
+        "tapId": {
+          "$id": "#/properties/result/properties/tapId",
+          "type": "string",
+          "description": "Unique identifier of the EMV tap event.",
+          "format": "uuid"
+        },
+        "cardAid": {
+          "$id": "#/properties/result/properties/cardAid",
+          "type": "string",
+          "description": "Application Identifier (AID) of the EMV card."
+        },
+        "cardAtc": {
+          "$id": "#/properties/result/properties/cardAtc",
+          "type": "integer",
+          "description": "Application Transaction Counter (ATC) of the EMV card."
+        },
+        "maskedPan": {
+          "$id": "#/properties/result/properties/maskedPan",
+          "type": "string",
+          "description": "Masked Primary Account Number (PAN). Shows partial digits with asterisks for privacy. Common formats: last 4 only (************1234), BIN + last 4 (123456******1234), or first 4 + last 4 (1234********1234).",
+          "pattern": "^[0-9*]{9,15}[0-9]{4}$"
+        }
+      },
+      "required": ["rejectReason"],
+      "additionalProperties": false
+    },
+    "eventTimestamp": {
+      "$id": "#/properties/eventTimestamp",
+      "type": "string",
+      "description": "Timestamp of when the outcome was produced.",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "traceId",
+    "deviceId",
+    "requestId",
+    "requestType",
+    "status",
+    "eventTimestamp"
+  ],
+  "additionalProperties": false
+}

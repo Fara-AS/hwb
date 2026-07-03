@@ -1,0 +1,15 @@
+{
+  "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+  "deviceId": "flv202500011",
+  "requestId": "c28f206d-8016-4d22-b21b-70d8d6d2fea4",
+  "requestType": "start",
+  "status": "accepted",
+  "result": {
+    "rejectReason": "none",
+    "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+    "cardAid": "A0000000031010",
+    "cardAtc": 101,
+    "maskedPan": "123456******1234"
+  },
+  "eventTimestamp": "2025-10-15T10:30:00.337Z"
+}

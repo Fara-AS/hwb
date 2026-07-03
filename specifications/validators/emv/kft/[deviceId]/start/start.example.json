@@ -1,0 +1,27 @@
+{
+  "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+  "currencyExponent": 2,
+  "currencyCode": 578,
+  "products": [{
+    "qty": 1,
+    "category": "adult",
+    "type": "singleTicket",
+    "price": 25000,
+    "vatPercentage": 12.0
+  }],
+  "productMedium": {
+    "type": "card",
+    "serial": "0123456789"
+  },
+  "operator": {
+    "countryCode": 578,
+    "networkId": "Vestfold",
+    "companyId": "VyBuss",
+    "userId": "user-123",
+    "shiftId": "shift-123"
+  },
+  "tapTimeoutSec": 30,
+  "cancelWindowSec": 600,
+  "message": "Place your EMV card below",
+  "eventTimestamp": "2025-10-15T10:30:00.337Z"
+}

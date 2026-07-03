@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/mrfylke/frammr-mqtt-validator/specifications/validators/emv/kft/report/report.schema.json",
+  "title": "KFT shift report",
+  "type": "object",
+  "description": "Report published by the validator listing all EMV Known Fare Transactions (KFT) performed within an operator shift.",
+  "properties": {
+    "traceId": {
+      "$id": "#/properties/traceId",
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier (UUID v4)."
+    },
+    "deviceId": {
+      "$id": "#/properties/deviceId",
+      "type": "string",
+      "description": "Validator serial number."
+    },
+    "requestId": {
+      "$id": "#/properties/requestId",
+      "type": "string",
+      "format": "uuid",
+      "description": "The traceId from the report request message that triggered this report."
+    },
+    "shiftId": {
+      "$id": "#/properties/shiftId",
+      "type": "string",
+      "description": "Identifier of the operator shift covered by this report."
+    },
+    "readerId": {
+      "$id": "#/properties/readerId",
+      "type": "string",
+      "description": "Serial number of the EMV terminal (reader) attached to the validator."
+    },
+    "status": {
+      "$id": "#/properties/status",
+      "type": "string",
+      "description": "Status of the report generation. 'success' means the report was generated and the listed transactions are complete; 'error' means generation failed and 'transactions' may be empty.",
+      "enum": ["success", "error"]
+    },
+    "transactions": {
+      "$id": "#/properties/transactions",
+      "type": "array",
+      "description": "List of EMV KFT transactions performed within the shift.",
+      "items": {
+        "type": "object",
+        "required": ["datetime", "status", "cardAid", "amount"],
+        "properties": {
+          "datetime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the transaction (UTC, RFC3339 format)."
+          },
+          "status": {
+            "type": "string",
+            "description": "Final status of the transaction.",
+            "enum": ["accepted", "rejected", "cancelled"]
+          },
+          "rejectReason": {
+            "type": "string",
+            "description": "Reason for rejection. Optional, as it may not always be available.",
+            "enum": [
+              "none",
+              "oda",
+              "aac",
+              "pilotList",
+              "denyList",
+              "passback",
+              "expired",
+              "binBlocked",
+              "arqcFailed",
+              "issuerAuthFailed",
+              "readFailed",
+              "invalidRequest",
+              "systemBusy",
+              "systemError",
+              "otherError"
+            ]
+          },
+          "tapId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier of the EMV tap event. Optional, as it may not always be available. Can only be cross-referenced against the EMV backend for taps that were synced to it; cancelled transactions are removed from the local sending queue and never reach the backend."
+          },
+          "cardAid": {
+            "type": "string",
+            "description": "Application Identifier (AID) of the EMV card."
+          },
+          "amount": {
+            "type": "object",
+            "description": "Amount charged for the transaction.",
+            "required": ["value", "currencyCode", "exponent"],
+            "properties": {
+              "value": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Amount expressed in the smallest currency unit, scaled by exponent."
+              },
+              "currencyCode": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 999,
+                "description": "Numeric ISO 4217 currency code (e.g., 978 for EUR)."
+              },
+              "exponent": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3,
+                "description": "Number of decimal digits for the currency (e.g., 2 for cents)."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "eventTimestamp": {
+      "$id": "#/properties/eventTimestamp",
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when the report was produced (UTC, RFC3339 format)."
+    }
+  },
+  "required": [
+    "traceId",
+    "deviceId",
+    "requestId",
+    "shiftId",
+    "readerId",
+    "status",
+    "transactions",
+    "eventTimestamp"
+  ],
+  "additionalProperties": false
+}

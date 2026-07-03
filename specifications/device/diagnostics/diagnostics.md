@@ -1,6 +1,6 @@
 ---
-version: 1.0.0
-lastUpdated: 2023-06-13
+version: 1.2.0
+lastUpdated: 2026-04-16
 qos: 0
 direction: pub
 ---
@@ -42,7 +42,7 @@ a response to a diagnostics check. See related topics in next section.
   "standardVersion": "1.0.0",
   "ipAddress": "192.168.99.11",
   "label": "front",
-  "functionality": ["nfc", "barcode"],
+  "functionality": ["nfc", "barcode", "payg", "kft"],
   "status": "OK",
   "statusText": "no errors"
 }

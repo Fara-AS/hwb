@@ -13,7 +13,7 @@ info:
   license:
     name: Apache 2.0
     url: https://frammr.no
-  version: 1.0.1
+  version: 1.3.1
 
 defaultContentType: application/json
 channels:
@@ -52,6 +52,9 @@ channels:
 
       ```json
       {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202400004",
+        "eventTimestamp": "2023-04-22T10:28:37.337Z",
         "manufacturer": "Acme",
         "model": "NFC2000b",
         "serial": "F0A222100004",
@@ -59,7 +62,7 @@ channels:
         "standardVersion": "1.0.0",
         "ipAddress": "192.168.99.11",
         "label": "front",
-        "functionality": ["nfc", "barcode"],
+        "functionality": ["nfc", "barcode", "payg", "kft"],
         "status": "OK",
         "statusText": "no errors"
       }
@@ -67,6 +70,9 @@ channels:
 
       ```json
       {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202400004",
+        "eventTimestamp": "2023-04-22T10:28:37.337Z",
         "manufacturer": "Acme",
         "model": "LocOmotive2",
         "serial": "LL0A222100004",
@@ -170,6 +176,9 @@ channels:
 
       ```json
       {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202400004",
+        "eventTimestamp": "2023-04-22T10:28:37.337Z",
         "manufacturer": "Acme",
         "model": "NFC2000b",
         "serial": "F0A222100004",
@@ -177,7 +186,7 @@ channels:
         "standardVersion": "1.0.0",
         "ipAddress": "192.168.99.11",
         "label": "front",
-        "functionality": ["nfc", "barcode"],
+        "functionality": ["nfc", "barcode", "payg", "kft"],
         "status": "OK",
         "statusText": "no errors"
       }
@@ -185,6 +194,9 @@ channels:
 
       ```json
       {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202400004",
+        "eventTimestamp": "2023-04-22T10:28:37.337Z",
         "manufacturer": "Acme",
         "model": "LocOmotive2",
         "serial": "LL0A222100004",
@@ -333,7 +345,7 @@ channels:
       ## Settings
 
       - `dumpCardMode`: See NFC flow chart for implications of card dump mode.
-      - `timeout`: Settings for timeout behavior with timout in seconds and message
+      - `timeout`: Settings for timeout behavior with timeout in seconds and message
         when it is timed out. Timeout of 0 will be no timeout (not recommended)
 
       ## Related
@@ -581,7 +593,7 @@ channels:
       ## Settings
 
       - `dumpCardMode`: See NFC flow chart for implications of card dump mode.
-      - `timeout`: Settings for timeout behavior with timout in seconds and message
+      - `timeout`: Settings for timeout behavior with timeout in seconds and message
         when it is timed out. Timeout of 0 will be no timeout (not recommended)
 
       ## Related
@@ -728,6 +740,622 @@ channels:
             qos: 0
             retain: false
 
+  validators/emv/kft/[deviceId]/abort:
+    description: |
+      # Specification: Abort KFT transaction
+
+      Request the validator to abort started EMV payment transaction (KFT) without waiting for the card to be presented.
+
+      An outcome message will be returned by the validator indicating the operation status.
+
+      - Topic: `validators/emv/kft/[deviceId]/abort`
+      - Direction: Consume (Outbound from client)
+      - JSON Schema: [kft.abort.schema.json](./abort.schema.json)
+      - MQTT QoS: 1 (At least once)
+
+      ## Related
+
+      - Start KFT transaction: `validators/emv/kft/[deviceId]/start`
+      - Cancel KFT transaction: `validators/emv/kft/[deviceId]/cancel`
+      - KFT transaction outcome: `validators/emv/kft/outcome`
+
+      ## Examples
+
+      ```json
+      {
+        "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+        "eventTimestamp": "2025-10-15T10:35:00.337Z"
+      }
+      ```
+    subscribe:
+      message:
+        name: Abort EMV Payment Transaction
+        schemaFormat: application/schema+json;version=draft-07
+        payload:
+          $ref: specifications/validators/emv/kft/[deviceId]/abort/abort.schema.json
+        examples:
+          - payload:
+              $ref: specifications/validators/emv/kft/[deviceId]/abort/abort.example.json
+        bindings:
+          mqtt:
+            qos: undefined
+            retain: false
+
+  validators/emv/kft/[deviceId]/cancel:
+    description: |
+      # Specification: Cancel KFT transaction
+
+      Request the validator to cancel an already accepted EMV payment transaction (KFT). The transaction reference is returned as the `tapId` identifier present in the KFT transaction outcome message.
+
+      An outcome message will be returned by the validator indicating the operation status. The request may be rejected if the `tapId` is incorrect or if the cancellation window has already expired and the transaction has been sent to the EMV backend.
+
+      - Topic: `validators/emv/kft/[deviceId]/cancel`
+      - Direction: Consume (Outbound from client)
+      - JSON Schema: [kft.cancel.schema.json](./cancel.schema.json)
+      - MQTT QoS: 1 (At least once)
+
+      ## Related
+
+      - Start KFT transaction: `validators/emv/kft/[deviceId]/start`
+      - Abort KFT transaction: `validators/emv/kft/[deviceId]/abort`
+      - KFT transaction outcome: `validators/emv/kft/outcome`
+
+      ## Examples
+
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+        "eventTimestamp": "2025-10-15T10:35:00.337Z"
+      }
+      ```
+    subscribe:
+      message:
+        name: Cancel EMV Payment Transaction
+        schemaFormat: application/schema+json;version=draft-07
+        payload:
+          $ref: specifications/validators/emv/kft/[deviceId]/cancel/cancel.schema.json
+        examples:
+          - payload:
+              $ref: specifications/validators/emv/kft/[deviceId]/cancel/cancel.example.json
+        bindings:
+          mqtt:
+            qos: undefined
+            retain: false
+
+  validators/emv/kft/[deviceId]/flush:
+    description: |
+      # Specification: Flush KFT transactions
+
+      Request the validator to flush all EMV payment transactions (KFT) awaiting the cancellation window to elapse. The awaiting transactions will then be immediately sent to the EMV backend. Their cancellation will no longer be possible.
+
+      An outcome message will be returned by the validator indicating the operation status.
+
+      - Topic: `validators/emv/kft/[deviceId]/flush`
+      - Direction: Consume (Outbound from client)
+      - JSON Schema: [kft.flush.schema.json](./flush.schema.json)
+      - MQTT QoS: 1 (At least once)
+
+      ## Related
+
+      - Start KFT transaction: `validators/emv/kft/[deviceId]/start`
+      - Cancel KFT transaction: `validators/emv/kft/[deviceId]/cancel`
+      - KFT transaction outcome: `validators/emv/kft/outcome`
+
+      ## Examples
+
+      ```json
+      {
+        "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+        "eventTimestamp": "2025-10-15T10:35:00.337Z"
+      }
+      ```
+    subscribe:
+      message:
+        name: Flush EMV KFT transactions
+        schemaFormat: application/schema+json;version=draft-07
+        payload:
+          $ref: specifications/validators/emv/kft/[deviceId]/flush/flush.schema.json
+        examples:
+          - payload:
+              $ref: specifications/validators/emv/kft/[deviceId]/flush/flush.example.json
+        bindings:
+          mqtt:
+            qos: undefined
+            retain: false
+
+  validators/emv/kft/[deviceId]/report:
+    description: |
+      # Specification: Request KFT shift report
+
+      Request the validator to publish a report of all EMV Known Fare Transactions (KFT) performed within a given operator shift.
+
+      The `shiftId` value is dictated by the KFT start message (`operator.shiftId`) — only transactions started under a matching `shiftId` are included in the report.
+
+      Upon receiving this request, the validator collects all KFT transactions associated with the provided `shiftId` and publishes the result on the `validators/emv/kft/report` topic.
+
+      - Topic: `validators/emv/kft/[deviceId]/report`
+      - Direction: Consume (Outbound from client)
+      - JSON Schema: [kft.report.schema.json](./report.schema.json)
+      - MQTT QoS: 1 (At least once)
+
+      ## Related
+
+      - KFT shift report response: `validators/emv/kft/report`
+      - Start KFT transaction: `validators/emv/kft/[deviceId]/start`
+
+      ## Examples
+
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "shiftId": "2026-05-20-0001",
+        "eventTimestamp": "2026-05-20T18:00:12.000Z"
+      }
+      ```
+
+    subscribe:
+      message:
+        name: Request KFT shift report
+        schemaFormat: application/schema+json;version=draft-07
+        payload:
+          $ref: specifications/validators/emv/kft/[deviceId]/report/report.schema.json
+        examples:
+          - payload:
+              $ref: specifications/validators/emv/kft/[deviceId]/report/report.example.json
+        bindings:
+          mqtt:
+            qos: undefined
+            retain: false
+
+  validators/emv/kft/[deviceId]/start:
+    description: |
+      # Specification: Start KFT transaction
+
+      Request the validator to initiate an EMV Known Fare Transaction (KFT) for a specified amount and product selection, then wait for a contactless card tap.
+
+      Once started, the validator activates the reader and awaits card presentation within the configured timeout period. Upon tap, it processes the EMV transaction and publishes an outcome message indicating the result.
+
+      Prerequisites for the KFT tap are defined in [kft.md](../../kft.md).
+
+      - Topic: `validators/emv/kft/[deviceId]/start`
+      - Direction: Consume (Outbound from client)
+      - JSON Schema: [kft.start.schema.json](./start.schema.json)
+      - MQTT QoS: 1 (At least once)
+
+      ## Possible outcomes
+
+      ### Request rejected
+
+      The request may be immediately rejected when:
+      - Validation of the request message against the schema fails
+      - Another request is already being processed by the validator
+      - EMV-related issues occur (e.g. prolonged transaction or denylist sync failures)
+
+      ### Request timeout
+
+      The request will time out if no card is presented within the specified `tapTimeoutSec` duration.
+
+      ### Request accepted with EMV result
+
+      The outcome is dependent on the EMV card verification logic; the full list of EMV-related results is specified in the [outcome schema](./outcome.schema.json).
+
+
+      ## Optional dynamic configuration
+
+      - `tapTimeoutSec` (optional): Overrides the default KFT tap timeout configured in the validator.
+      - `cancelWindowSec` (optional): Overrides the default cancellation window configured in the validator.
+
+      If omitted, the validator will apply its static configuration defaults.
+
+      ## Related
+
+      - Abort KFT transaction: `validators/emv/kft/[deviceId]/abort`
+      - Cancel KFT transaction: `validators/emv/kft/[deviceId]/cancel`
+      - KFT transaction outcome: `validators/emv/kft/outcome`
+
+      ## Examples
+
+      Start EMV payment transaction for a single ticket
+
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "currencyExponent": 2,
+        "currencyCode": 578,
+        "products": [{
+          "qty": 1,
+          "category": "adult",
+          "type": "singleTicket",
+          "price": 25000,
+          "vatPercentage": 12.0
+        }],
+        "productMedium": {
+          "type": "card",
+          "serial": "0123456789"
+        },
+        "operator": {
+          "countryCode": 578,
+          "networkId": "Vestfold",
+          "companyId": "VyBuss",
+          "userId": "user-123",
+          "shiftId": "shift-123"
+        },
+        "tapTimeoutSec": 30,
+        "cancelWindowSec": 600,
+        "message": "Place your EMV card below",
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+    subscribe:
+      message:
+        name: Start EMV payment transaction
+        schemaFormat: application/schema+json;version=draft-07
+        payload:
+          $ref: specifications/validators/emv/kft/[deviceId]/start/start.schema.json
+        examples:
+          - payload:
+              $ref: specifications/validators/emv/kft/[deviceId]/start/start.example.json
+        bindings:
+          mqtt:
+            qos: undefined
+            retain: false
+
+  validators/emv/kft/outcome:
+    description: |
+      # Specification: KFT transaction outcome
+
+      Published by the validator once EMV card tap for Known Fare Transaction (KFT) is completed, whether accepted or rejected.
+      This outcome message is a common one shared for start/abort/cancel KFT message types.
+      Journey metadata must be provided to the validator via the dedicated MQTT topic to enable the creation of detailed reports in the backoffice.
+
+      - Topic: `validators/emv/kft/outcome`
+      - Direction: Publish (Inbound to client)
+      - JSON Schema: [kft.outcome.schema.json](./outcome.schema.json)
+      - MQTT QoS: 1 (At least once)
+      - MQTT Retained: true
+
+      ## Related
+
+      - Start KFT transaction: `validators/emv/kft/[deviceId]/start`
+      - Abort KFT transaction: `validators/emv/kft/[deviceId]/abort`
+      - Cancel KFT transaction: `validators/emv/kft/[deviceId]/cancel`
+
+      ## Examples
+
+      ### Payment transaction outcome
+
+      Tap accepted
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "c28f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "start",
+        "status": "accepted",
+        "result": {
+          "rejectReason": "none",
+          "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+          "cardAid": "A0000000031010",
+          "cardAtc": 101,
+          "maskedPan": "123456******1234"
+        },
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      Tap rejected (card on denylist)
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "c28f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "start",
+        "status": "rejected",
+        "result": {
+          "rejectReason": "denyList",
+          "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+          "cardAid": "A0000000031010",
+          "cardAtc": 101,
+          "maskedPan": "123456******5678"
+        },
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      Tap rejected (card expired)
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "c28f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "start",
+        "status": "rejected",
+        "result": {
+          "rejectReason": "expired",
+          "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+          "cardAid": "A0000000031010",
+          "cardAtc": 101,
+          "maskedPan": "567890******9012"
+        },
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      Tap timeout (card not presented)
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "c28f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "start",
+        "status": "timeout",
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      ### Abort transaction outcome
+
+      Abort accepted
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "f52f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "abort",
+        "status": "accepted",
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      Abort rejected
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "f52f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "abort",
+        "status": "rejected",
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      ### Cancel transaction outcome
+
+      Cancel accepted
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "f52f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "cancel",
+        "status": "accepted",
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      Cancel rejected
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "f52f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "cancel",
+        "status": "rejected",
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      ### Flush transactions outcome
+
+      Flush accepted
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "f52f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "flush",
+        "status": "accepted",
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+
+      Flush rejected
+      ```json
+      {
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "f52f206d-8016-4d22-b21b-70d8d6d2fea4",
+        "requestType": "flush",
+        "status": "rejected",
+        "eventTimestamp": "2025-10-15T10:30:00.337Z"
+      }
+      ```
+    subscribe:
+      message:
+        name: EMV KFT transaction outcome
+        schemaFormat: application/schema+json;version=draft-07
+        payload:
+          $ref: specifications/validators/emv/kft/outcome/outcome.schema.json
+        examples:
+          - payload:
+              $ref: specifications/validators/emv/kft/outcome/outcome.example.json
+        bindings:
+          mqtt:
+            qos: undefined
+            retain: false
+
+  validators/emv/kft/report:
+    description: |
+      # Specification: KFT shift report
+
+      Published by the validator in response to a KFT shift report request. Contains the list of EMV Known Fare Transactions (KFT) performed by the validator within the specified operator shift.
+
+      - Topic: `validators/emv/kft/report`
+      - Direction: Publish (Inbound to client)
+      - JSON Schema: [kft.report.schema.json](./report.schema.json)
+      - MQTT QoS: 1 (At least once)
+
+      ## Related
+
+      - KFT shift report request: `validators/emv/kft/[deviceId]/report`
+      - KFT transaction outcome: `validators/emv/kft/outcome`
+
+      ## Notes on `status`
+
+      The `status` field reports the outcome of the report generation itself, independent of the per-transaction `status` values inside `transactions`:
+
+      - `success` — the report was generated and the listed transactions are complete.
+      - `error` — report generation failed. The validator still publishes the message so the requestor receives a response instead of a silent failure; `transactions` may be empty in this case.
+
+      ## Notes on `tapId`
+
+      A `tapId` can only be cross-referenced against the EMV backend once the tap has been synced. Cancelled transactions are removed from the local sending queue and never reach the backend, so their `tapId` cannot be cross-referenced there. A cancelled entry shares the same `tapId` as its originating accepted entry, so the two can be paired within this report.
+
+      ## Examples
+
+      ```json
+      {
+        "traceId": "883070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "shiftId": "2026-05-20-0001",
+        "readerId": "1A002B003C004D005E006F0070008000",
+        "status": "success",
+        "transactions": [
+          {
+            "datetime": "2026-05-20T08:10:55.000Z",
+            "status": "accepted",
+            "tapId": "a1b2c3d4-1111-4aaa-8bbb-ccccdddd0001",
+            "cardAid": "A0000000031010",
+            "amount": { "value": 150, "currencyCode": 978, "exponent": 2 }
+          },
+          {
+            "datetime": "2026-05-20T08:14:22.000Z",
+            "status": "accepted",
+            "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+            "cardAid": "A0000000031010",
+            "amount": { "value": 320, "currencyCode": 978, "exponent": 2 }
+          },
+          {
+            "datetime": "2026-05-20T08:30:48.000Z",
+            "status": "accepted",
+            "tapId": "c5f9e8b1-3d52-4fa3-9f7b-4f5e7f2a8d22",
+            "cardAid": "A0000000041010",
+            "amount": { "value": 150, "currencyCode": 978, "exponent": 2 }
+          },
+          {
+            "datetime": "2026-05-20T08:31:05.000Z",
+            "status": "cancelled",
+            "tapId": "c5f9e8b1-3d52-4fa3-9f7b-4f5e7f2a8d22",
+            "cardAid": "A0000000041010",
+            "amount": { "value": 150, "currencyCode": 978, "exponent": 2 }
+          },
+          {
+            "datetime": "2026-05-20T08:45:11.000Z",
+            "status": "rejected",
+            "rejectReason": "denyList",
+            "tapId": "d7a1c9f2-4e63-4eb4-8a8c-5a6f8a3b9e33",
+            "cardAid": "A0000000031010",
+            "amount": { "value": 200, "currencyCode": 978, "exponent": 2 }
+          }
+        ],
+        "eventTimestamp": "2026-05-20T18:00:12.337Z"
+      }
+      ```
+
+      Failed report generation:
+
+      ```json
+      {
+        "traceId": "991070fe-ef32-11ed-a05b-0242ac120003",
+        "deviceId": "flv202500011",
+        "requestId": "543070fe-ef32-11ed-a05b-0242ac120003",
+        "shiftId": "2026-05-20-0001",
+        "readerId": "1A002B003C004D005E006F0070008000",
+        "status": "error",
+        "transactions": [],
+        "eventTimestamp": "2026-05-20T18:00:12.337Z"
+      }
+      ```
+
+    subscribe:
+      message:
+        name: KFT shift report
+        schemaFormat: application/schema+json;version=draft-07
+        payload:
+          $ref: specifications/validators/emv/kft/report/report.schema.json
+        examples:
+          - payload:
+              $ref: specifications/validators/emv/kft/report/report.example.json
+        bindings:
+          mqtt:
+            qos: undefined
+            retain: false
+
+  validators/emv/payg/tap:
+    description: |
+      # Specification: PAYG card tap
+
+      Published by the validator once EMV card tap for Pay-As-You-Go (PAYG) transaction is completed, whether accepted or rejected.
+
+      Prerequsites for the KFT tap defined in [payg.md](../../payg.md)
+
+      - Topic: `validators/emv/payg/tap`
+      - Direction: Publish (Inbound to client)
+      - JSON Schema: [payg.tap.schema.json](./tap.schema.json)
+      - MQTT QoS: 1 (At least once)
+
+      ## Examples
+
+      Tap success
+      ```json
+      {
+        "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+        "deviceId": "flv202500011",
+        "status": "accepted",
+        "result": {
+          "rejectReason": "none",
+          "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+          "cardAid": "A0000000031010",
+          "cardAtc": 101,
+          "maskedPan": "123456******1234"
+        },
+        "eventTimestamp": "2025-10-16T10:15:06.122Z"
+      }
+      ```
+
+      Tap rejected (card on denylist)
+      ```json
+      {
+        "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+        "deviceId": "flv202500011",
+        "status": "rejected",
+        "result": {
+          "rejectReason": "denyList",
+          "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+          "cardAid": "A0000000031010",
+          "cardAtc": 101,
+          "maskedPan": "123456******5678"
+        },
+        "eventTimestamp": "2025-10-16T10:15:06.122Z"
+      }
+      ```
+
+    subscribe:
+      message:
+        name: EMV PAYG tap
+        schemaFormat: application/schema+json;version=draft-07
+        payload:
+          $ref: specifications/validators/emv/payg/tap/tap.schema.json
+        examples:
+          - payload:
+              $ref: specifications/validators/emv/payg/tap/tap.example.json
+        bindings:
+          mqtt:
+            qos: undefined
+            retain: false
+
   validators/nfc:
     description: |
       # Specification: nfc
@@ -759,11 +1387,13 @@ channels:
 
       This concept is applicable in situations where the smart card holds various
       types of travel rights and there is a requirement to prioritize among them.
-      Examples of such types include NOD (Name Origin Destination), account-based, and
+      Examples of such types include NOD (Nasjonal OrdreDatabase), account-based, and
       others.
 
       Only supported type for now is `nsd` and that needs to be set as `type`, for
       future proofing when new types are added.
+
+      - `nsd`: Nasjonal Standard Desfire. Data format for ticketing using Mifare Desfire cards. In Norway described by "Håndbok V821 del 18".
 
       ## Examples
 

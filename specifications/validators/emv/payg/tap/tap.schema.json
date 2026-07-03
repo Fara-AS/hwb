@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/mrfylke/frammr-mqtt-validator/specifications/validators/emv/payg/tap.schema.json",
+  "title": "EMV PAYG tap",
+  "description": "Schema for EMV Pay-As-You-Go (PAYG) tap messages published by the validator.",
+  "type": "object",
+  "properties": {
+    "traceId": {
+      "$id": "#/properties/traceId",
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier - UUID v4"
+    },
+    "deviceId": {
+      "$id": "#/properties/deviceId",
+      "type": "string",
+      "description": "Unique device identifier of the validator."
+    },
+    "status": {
+      "$id": "#/properties/status",
+      "type": "string",
+      "description": "Final outcome status of the tap.",
+      "enum": ["accepted", "rejected"]
+    },
+    "result": {
+      "$id": "#/properties/result",
+      "type": "object",
+      "description": "Detailed result of the tap, if applicable.",
+      "properties": {
+        "rejectReason": {
+          "$id": "#/properties/result/properties/rejectReason",
+          "type": "string",
+          "description": "Reason for rejection if status is 'rejected'.",
+          "enum": [
+            "none",
+            "oda",
+            "aac",
+            "pilotList",
+            "denyList",
+            "passback",
+            "expired",
+            "binBlocked",
+            "emvDisabled",
+            "paygNotAllowed",
+            "unknown"
+          ]
+        },
+        "tapId": {
+          "$id": "#/properties/result/properties/tapId",
+          "type": "string",
+          "description": "Unique identifier of the EMV tap event.",
+          "format": "uuid"
+        },
+        "cardAid": {
+          "$id": "#/properties/result/properties/cardAid",
+          "type": "string",
+          "description": "Application Identifier (AID) of the EMV card."
+        },
+        "cardAtc": {
+          "$id": "#/properties/result/properties/cardAtc",
+          "type": "integer",
+          "description": "Application Transaction Counter (ATC) of the EMV card."
+        },
+        "maskedPan": {
+          "$id": "#/properties/result/properties/maskedPan",
+          "type": "string",
+          "description": "Masked Primary Account Number (PAN). Shows partial digits with asterisks for privacy. Common formats: last 4 only (************1234), BIN + last 4 (123456******1234), or first 4 + last 4 (1234********1234).",
+          "pattern": "^[0-9*]{9,15}[0-9]{4}$"
+        }
+      },
+      "required": ["rejectReason", "tapId"],
+      "additionalProperties": false
+    },
+    "eventTimestamp": {
+      "$id": "#/properties/eventTimestamp",
+      "type": "string",
+      "description": "Timestamp when the tap outcome was produced.",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "traceId",
+    "deviceId",
+    "status",
+    "result",
+    "eventTimestamp"
+  ],
+  "additionalProperties": false
+}

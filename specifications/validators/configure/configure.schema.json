@@ -27,7 +27,7 @@
     "timeout": {
       "$id": "#/properties/timeout",
       "type": "object",
-      "description": "Settings for timeout behavior with timout in seconds and message when it is timed out. Timeout of 0 will be no timeout (not recommended)",
+      "description": "Settings for timeout behavior with timeout in seconds and message when it is timed out. Timeout of 0 will be no timeout (not recommended)",
       "required": ["timeInSeconds", "message"],
 
       "properties": {

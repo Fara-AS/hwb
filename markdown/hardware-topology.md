@@ -12,20 +12,20 @@ title: Component connections w/protocols
 graph TB
 
     subgraph terminal
-    A("Sales Client\n(Client)")
+    A("Sales Client (Client)")
     end
-    A <--MQTT--> B("Gateway\n(Broker)")
+    A <--MQTT--> B("Gateway (Broker)")
 
     subgraph READERS
-        D("Barcode/NFC\n(Device)")
-        E("Barcode/NFC\n(Device)")
-        F("Barcode/NFC\n(Device)")
+        D("Barcode/NFC/EMV (Device)")
+        E("Barcode/NFC/EMV (Device)")
+        F("Barcode/NFC/EMV (Device)")
     end
 
     B <--MQTT--> READERS
-    B<--MQTT-->G("GPS\n(Device)")
+    B<--MQTT-->G("GPS (Device)")
 
-    B<-.MQTT.->C("APC\n(Device)")
+    B<-.MQTT.->C("APC (Device)")
 
     style C opacity:0.7,stroke-dasharray: 4
 ```

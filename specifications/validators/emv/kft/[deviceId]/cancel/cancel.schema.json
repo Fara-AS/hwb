@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/mrfylke/frammr-mqtt-validator/specifications/validators/emv/kft/[deviceId]/cancel/cancel.schema.json",
+  "title": "Cancel EMV Payment Transaction",
+  "type": "object",
+  "description": "Request to cancel an already accepted EMV Known Fare Transaction (KFT) based on the tapId returned in the KFT outcome message.",
+  "properties": {
+    "traceId": {
+      "$id": "#/properties/traceId",
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier (UUID v4)."
+    },
+    "tapId": {
+      "$id": "#/properties/tapId",
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of the EMV transaction to be cancelled, as provided in the KFT outcome message."
+    },
+    "eventTimestamp": {
+      "$id": "#/properties/eventTimestamp",
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp for when the cancellation was initiated (UTC, RFC3339 format)."
+    }
+  },
+  "required": [
+    "traceId",
+    "tapId",
+    "eventTimestamp"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/mrfylke/frammr-mqtt-validator/specifications/validators/emv/kft/[deviceId]/report/report.schema.json",
+  "title": "Request KFT shift report",
+  "type": "object",
+  "description": "Request the validator to publish a report of all EMV KFT transactions performed within the specified operator shift.",
+  "properties": {
+    "traceId": {
+      "$id": "#/properties/traceId",
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier (UUID v4)."
+    },
+    "shiftId": {
+      "$id": "#/properties/shiftId",
+      "type": "string",
+      "description": "Identifier of the operator shift for which the KFT report is requested. Must match the `operator.shiftId` provided in the corresponding KFT start messages."
+    },
+    "eventTimestamp": {
+      "$id": "#/properties/eventTimestamp",
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the report request was issued (UTC, RFC3339 format)."
+    }
+  },
+  "required": [
+    "traceId",
+    "shiftId",
+    "eventTimestamp"
+  ],
+  "additionalProperties": false
+}

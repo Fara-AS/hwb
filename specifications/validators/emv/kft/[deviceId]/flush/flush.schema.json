@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/mrfylke/frammr-mqtt-validator/specifications/validators/emv/kft/[deviceId]/flush/flush.schema.json",
+  "title": "Flush EMV KFT transactions",
+  "type": "object",
+  "description": "Request to flush all EMV KFT transactions awaiting the cancellation window to elapse.",
+  "properties": {
+    "traceId": {
+      "$id": "#/properties/traceId",
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier (UUID v4)."
+    },
+    "eventTimestamp": {
+      "$id": "#/properties/eventTimestamp",
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the flush request was issued (UTC, RFC3339 format)."
+    }
+  },
+  "required": [
+    "traceId",
+    "eventTimestamp"
+  ]
+}

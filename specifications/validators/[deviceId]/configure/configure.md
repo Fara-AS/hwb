@@ -19,7 +19,7 @@ many options at once. Will only overwrite the passed configuration.
 ## Settings
 
 - `dumpCardMode`: See NFC flow chart for implications of card dump mode.
-- `timeout`: Settings for timeout behavior with timout in seconds and message
+- `timeout`: Settings for timeout behavior with timeout in seconds and message
   when it is timed out. Timeout of 0 will be no timeout (not recommended)
 
 ## Related
