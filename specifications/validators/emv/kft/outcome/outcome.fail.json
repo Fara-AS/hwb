@@ -1,0 +1,9 @@
+{
+  "$schema": "./outcome.schema.json",
+  "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+  "deviceId": "flv202500011",
+  "requestId": "c28f206d-8016-4d22-b21b-70d8d6d2fea4",
+  "requestType": "start",
+  "status": "pending",
+  "eventTimestamp": "2025-10-15T10:30:00.337Z"
+}

@@ -24,7 +24,7 @@ An outcome message will be returned by the validator indicating the operation st
 
 ```json
 {
-  "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+  "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
   "eventTimestamp": "2025-10-15T10:35:00.337Z"
 }
 ```

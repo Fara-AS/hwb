@@ -1,0 +1,18 @@
+{
+  "$schema": "./report.schema.json",
+  "traceId": "883070fe-ef32-11ed-a05b-0242ac120003",
+  "deviceId": "flv202500011",
+  "requestId": "543070fe-ef32-11ed-a05b-0242ac120003",
+  "shiftId": "2026-05-20-0001",
+  "readerId": "1A002B003C004D005E006F0070008000",
+  "status": "success",
+  "transactions": [
+    {
+      "datetime": "2026-05-20T08:14:22.000Z",
+      "status": "accepted",
+      "tapId": "b3e8d7a0-2c41-4e92-8e6a-3e4d6e1f7c11",
+      "cardAid": "A0000000031010"
+    }
+  ],
+  "eventTimestamp": "2026-05-20T18:00:12.337Z"
+}

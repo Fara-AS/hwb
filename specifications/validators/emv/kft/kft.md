@@ -40,6 +40,8 @@ sequenceDiagram
 
     Host->>Validator: [MQTT] validators/emv/kft/[deviceId]/start
 
+    Validator->>Validator: Display payment screen with amount and currency
+
     opt
     Passenger->>Validator: Present card
     Validator->>Validator: Process tap
@@ -62,8 +64,6 @@ sequenceDiagram
         Host->>Validator: [MQTT] validators/emv/kft/[deviceId]/cancel
         Validator->>Host: [MQTT] validators/emv/kft/outcome (cancel: accepted/rejected)
     end
-
-    Validator->>Validator: Display cancellation outcome
 
     opt Transaction flush requested
         Driver->>Host: Finish bus driver shift

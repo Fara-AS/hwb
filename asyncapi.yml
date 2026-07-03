@@ -763,7 +763,7 @@ channels:
 
       ```json
       {
-        "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
         "eventTimestamp": "2025-10-15T10:35:00.337Z"
       }
       ```
@@ -846,7 +846,7 @@ channels:
 
       ```json
       {
-        "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
         "eventTimestamp": "2025-10-15T10:35:00.337Z"
       }
       ```
@@ -1299,7 +1299,7 @@ channels:
 
       Published by the validator once EMV card tap for Pay-As-You-Go (PAYG) transaction is completed, whether accepted or rejected.
 
-      Prerequsites for the KFT tap defined in [payg.md](../../payg.md)
+      Prerequisites for the PAYG tap defined in [payg.md](../../payg.md)
 
       - Topic: `validators/emv/payg/tap`
       - Direction: Publish (Inbound to client)
@@ -1311,7 +1311,7 @@ channels:
       Tap success
       ```json
       {
-        "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
         "deviceId": "flv202500011",
         "status": "accepted",
         "result": {
@@ -1328,7 +1328,7 @@ channels:
       Tap rejected (card on denylist)
       ```json
       {
-        "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+        "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
         "deviceId": "flv202500011",
         "status": "rejected",
         "result": {

@@ -1,0 +1,5 @@
+{
+  "$schema": "./abort.schema.json",
+  "traceId": "not-a-valid-uuid",
+  "eventTimestamp": "2025-10-15T10:35:00.337Z"
+}

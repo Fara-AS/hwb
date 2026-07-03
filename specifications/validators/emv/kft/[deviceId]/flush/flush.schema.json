@@ -21,5 +21,6 @@
   "required": [
     "traceId",
     "eventTimestamp"
-  ]
+  ],
+  "additionalProperties": false
 }

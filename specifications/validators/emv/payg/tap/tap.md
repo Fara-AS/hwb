@@ -7,7 +7,7 @@ lastUpdated: 2025-12-22
 
 Published by the validator once EMV card tap for Pay-As-You-Go (PAYG) transaction is completed, whether accepted or rejected.
 
-Prerequsites for the KFT tap defined in [payg.md](../../payg.md)
+Prerequisites for the PAYG tap defined in [payg.md](../../payg.md)
 
 - Topic: `validators/emv/payg/tap`
 - Direction: Publish (Inbound to client)
@@ -19,7 +19,7 @@ Prerequsites for the KFT tap defined in [payg.md](../../payg.md)
 Tap success
 ```json
 {
-  "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+  "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
   "deviceId": "flv202500011",
   "status": "accepted",
   "result": {
@@ -36,7 +36,7 @@ Tap success
 Tap rejected (card on denylist)
 ```json
 {
-  "traceId": "543070fe-ef30-21es-125b-0242ac120009",
+  "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
   "deviceId": "flv202500011",
   "status": "rejected",
   "result": {

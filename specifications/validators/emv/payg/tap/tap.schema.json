@@ -40,9 +40,13 @@
             "passback",
             "expired",
             "binBlocked",
-            "emvDisabled",
-            "paygNotAllowed",
-            "unknown"
+            "arqcFailed",
+            "issuerAuthFailed",
+            "readFailed",
+            "invalidRequest",
+            "systemBusy",
+            "systemError",
+            "otherError"
           ]
         },
         "tapId": {

@@ -1,0 +1,7 @@
+{
+  "$schema": "./start.schema.json",
+  "traceId": "543070fe-ef32-11ed-a05b-0242ac120003",
+  "currencyExponent": 2,
+  "currencyCode": 578,
+  "eventTimestamp": "2025-10-15T10:30:00.337Z"
+}

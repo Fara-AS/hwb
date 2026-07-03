@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/mrfylke/frammr-mqtt-validator/specifications/validators/emv/kft/outcome/outcome.schema.json",
   "title": "EMV KFT transaction outcome",
   "description": "Schema for EMV Known Fare Transaction (KFT) outcome messages published by validator.",
   "type": "object",
@@ -18,7 +19,7 @@
     "requestId": {
       "$id": "#/properties/requestId",
       "type": "string",
-      "description": "The traceId from the request message (start, cancel, or abort) that triggered this outcome.",
+      "description": "The traceId from the request message (start, cancel, abort, or flush) that triggered this outcome.",
       "format": "uuid"
     },
     "requestType": {

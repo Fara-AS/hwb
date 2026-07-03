@@ -10,7 +10,7 @@ stateDiagram-v2
     Completed --> Idle: EMV PAYG tap published
 ```
 
-### States desciption
+### States description
 - **Idle**: The validator is waiting for a passenger to tap their card.
 - **Processing**: The validator reads and processes the EMV card data when a tap is detected.
 - **Completed**: The EMV outcome is determined (accepted or rejected), and the result is published.
@@ -24,11 +24,11 @@ This sequence diagram shows the communication between the passenger, the validat
 sequenceDiagram
     actor Passenger
     participant Validator
-    participant Broker
+    participant Host
 
     Passenger->>Validator: Present card
     Validator->>Validator: Process tap
-    Validator->>Broker: [MQTT] validators/emv/payg/tap (tap: accepted/rejected)
+    Validator->>Host: [MQTT] validators/emv/payg/tap (tap: accepted/rejected)
     Validator->>Validator: Display tap outcome
 ```
 
@@ -41,7 +41,7 @@ sequenceDiagram
 
 # Additional information
 
-## PAYG fare calulcation and reports
+## PAYG fare calculation and reports
 
 For accurate fare calculation and reporting, the validator must receive up-to-date journey metadata via MQTT prior to the EMV PAYG tap event. This metadata allows the backoffice system to associate each tap with its operational context (e.g., service, route, or stop).
 
